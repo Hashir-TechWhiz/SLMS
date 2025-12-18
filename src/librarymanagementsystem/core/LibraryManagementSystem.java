@@ -28,8 +28,8 @@ public class LibraryManagementSystem {
         boolean running = true;
         while (running) {
             showMainMenu();
-            String ch = sc.nextLine();
-            switch (ch) {
+            String choice = sc.nextLine();
+            switch (choice) {
                 case "1":
                     bookMenu();
                     break;
@@ -61,25 +61,34 @@ public class LibraryManagementSystem {
 
     // Book Menu
     private static void bookMenu() {
-        System.out.println("\nBook Menu:\n1. Add book\n2. List books\n3. Remove book\n0. Back");
+        System.out.println(
+                "\nBook Menu:\n" +
+                        "1. Add book\n" +
+                        "2. Update book\n" +
+                        "3. List books\n" +
+                        "4. Remove book\n" +
+                        "0. Back");
         System.out.print("Choose: ");
         String ch = sc.nextLine();
         switch (ch) {
             case "1":
-                addBookCLI();
+                addBook();
                 break;
             case "2":
-                listBooksCLI();
+                updateBook();
                 break;
             case "3":
-                removeBookCLI();
+                listBooks();
+                break;
+            case "4":
+                removeBook();
                 break;
             default:
                 break;
         }
     }
 
-    private static void addBookCLI() {
+    private static void addBook() {
         System.out.print("Book ID: ");
         String id = sc.nextLine();
         System.out.print("Title: ");
@@ -95,13 +104,32 @@ public class LibraryManagementSystem {
         System.out.println("Added: " + b);
     }
 
-    private static void listBooksCLI() {
+    private static void updateBook() {
+        System.out.print("Enter Book ID to update: ");
+        String id = sc.nextLine();
+
+        System.out.print("New Title (leave blank to keep unchanged): ");
+        String title = sc.nextLine();
+
+        System.out.print("New Author (leave blank to keep unchanged): ");
+        String author = sc.nextLine();
+
+        System.out.print("New Category (leave blank to keep unchanged): ");
+        String category = sc.nextLine();
+
+        System.out.print("New ISBN (leave blank to keep unchanged): ");
+        String isbn = sc.nextLine();
+
+        lib.updateBook(id, title, author, category, isbn);
+    }
+
+    private static void listBooks() {
         System.out.println("\nBooks:");
         for (Book b : lib.getBooks())
             System.out.println(b);
     }
 
-    private static void removeBookCLI() {
+    private static void removeBook() {
         System.out.print("Book ID to remove: ");
         String id = sc.nextLine();
         Book b = lib.findBookById(id);
@@ -282,15 +310,15 @@ public class LibraryManagementSystem {
         }
     }
 
-    // seed sample data for immediate use
+    // seed sample data
     private static void seedSampleData() {
         Book b1 = new BookBuilder("B001", "Intro to Java").author("Author A").category("Programming").isbn("111")
                 .build();
         Book b2 = new BookBuilder("B002", "Data Structures").author("Author B").category("CS").isbn("222").build();
         lib.addBook(b1);
         lib.addBook(b2);
-        User s1 = new Student("U001", "Alice", "a@x.com", "077111");
-        User f1 = new Faculty("U002", "Dr Bob", "b@x.com", "077222");
+        User s1 = new Student("U001", "Hashir", "hashir@gmail.com", "077111");
+        User f1 = new Faculty("U002", "Dhasun", "dasun@gmail.com", "077222");
         lib.addUser(s1);
         lib.addUser(f1);
     }

@@ -1,9 +1,7 @@
 package librarymanagementsystem.books;
 
 import java.util.Date;
-
 import librarymanagementsystem.users.User;
-
 import java.util.Calendar;
 
 public class BorrowRecord {

@@ -32,6 +32,35 @@ public class Library {
         books.remove(b);
     }
 
+    public void updateBook(
+            String bookId,
+            String newTitle,
+            String newAuthor,
+            String newCategory,
+            String newIsbn) {
+        Book book = findBookById(bookId);
+
+        if (book == null) {
+            System.out.println("Book not found.");
+            return;
+        }
+
+        if (newTitle != null && !newTitle.trim().isEmpty()) {
+            book.setTitle(newTitle);
+        }
+        if (newAuthor != null && !newAuthor.trim().isEmpty()) {
+            book.setAuthor(newAuthor);
+        }
+        if (newCategory != null && !newCategory.trim().isEmpty()) {
+            book.setCategory(newCategory);
+        }
+        if (newIsbn != null && !newIsbn.trim().isEmpty()) {
+            book.setIsbn(newIsbn);
+        }
+
+        System.out.println("Book updated successfully.");
+    }
+
     public List<Book> getBooks() {
         return books;
     }

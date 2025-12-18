@@ -8,6 +8,7 @@ import librarymanagementsystem.states.BookState;
 import librarymanagementsystem.users.User;
 
 public class Book implements BookComponent {
+
     private String bookId;
     private String title;
     private String author;
@@ -19,13 +20,11 @@ public class Book implements BookComponent {
     private String edition;
     private List<String> tags = new ArrayList<>();
 
-    // borrow history
+    // Borrow history
     private List<BorrowRecord> borrowHistory = new ArrayList<>();
 
-    // reservation queue
+    // Reservation queue
     private List<User> reservationQueue = new ArrayList<>();
-
-    // decorator indicator (wrapped decorator will hold reference if decorated)
 
     public Book(String bookId, String title, String author, String category, String isbn) {
         this.bookId = bookId;
@@ -36,7 +35,7 @@ public class Book implements BookComponent {
         this.state = new AvailableState(this);
     }
 
-    // getters & setters
+    // Getters
     public String getBookId() {
         return bookId;
     }
@@ -61,65 +60,87 @@ public class Book implements BookComponent {
         return edition;
     }
 
-    public void setEdition(String e) {
-        this.edition = e;
-    }
-
     public List<String> getTags() {
         return tags;
-    }
-
-    public void addTag(String t) {
-        tags.add(t);
     }
 
     public BookState getState() {
         return state;
     }
 
-    public void setState(BookState s) {
-        this.state = s;
-    }
-
     public List<BorrowRecord> getBorrowHistory() {
         return borrowHistory;
-    }
-
-    public void addBorrowRecord(BorrowRecord r) {
-        borrowHistory.add(r);
     }
 
     public List<User> getReservationQueue() {
         return reservationQueue;
     }
 
-    public void addReservation(User u) {
-        reservationQueue.add(u);
+    // Setters (REQUIRED for Update Book)
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public void setState(BookState state) {
+        this.state = state;
+    }
+
+    // Other helpers
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
+
+    public void addBorrowRecord(BorrowRecord record) {
+        borrowHistory.add(record);
+    }
+
+    public void addReservation(User user) {
+        reservationQueue.add(user);
     }
 
     public User popReservation() {
-        if (reservationQueue.size() == 0)
+        if (reservationQueue.isEmpty()) {
             return null;
+        }
         return reservationQueue.remove(0);
     }
 
-    // delegate to state
-    public void borrow(User u) {
-        state.borrow(u);
+    // State delegation
+    public void borrow(User user) {
+        state.borrow(user);
     }
 
-    public void reserve(User u) {
-        state.reserve(u);
+    public void reserve(User user) {
+        state.reserve(user);
     }
 
     public void returned() {
         state.returned();
     }
 
+    // Reporting helpers
     public int getTotalBorrows() {
         return borrowHistory.size();
     }
 
+    // Display
+    @Override
     public String toString() {
         return bookId + " - " + title + " (" + author + ") [" + state.getStatus() + "]";
     }

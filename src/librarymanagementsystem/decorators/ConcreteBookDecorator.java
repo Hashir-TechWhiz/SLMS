@@ -3,13 +3,13 @@ package librarymanagementsystem.decorators;
 import librarymanagementsystem.books.BookComponent;
 
 public abstract class ConcreteBookDecorator implements BookComponent {
-    protected BookComponent wrapped;
+    protected BookComponent decoratedBook;
 
     public ConcreteBookDecorator(BookComponent b) {
-        this.wrapped = b;
+        this.decoratedBook = b;
     }
 
     public String getTitle() {
-        return wrapped.getTitle();
+        return decoratedBook.getTitle();
     }
 }
