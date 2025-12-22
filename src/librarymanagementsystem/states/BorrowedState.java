@@ -26,15 +26,11 @@ public class BorrowedState implements BookState {
     }
 
     public void returned() {
-        // mark record returned
         record.markReturned();
         System.out.println("Book returned: " + book.getTitle() + " by " + borrower.getName());
-        // check reservations
         User next = book.popReservation();
         if (next != null) {
-            // notify next
             Library.getInstance().notifyReservationAvailable(next, book);
-            // set to Available so next can borrow or we could auto-assign
             book.setState(new AvailableState(book));
         } else {
             book.setState(new AvailableState(book));

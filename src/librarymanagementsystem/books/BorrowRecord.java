@@ -15,7 +15,9 @@ public class BorrowRecord {
         this.book = book;
         this.user = user;
         this.borrowedDate = new Date();
-        int days = (user.getMembershipType().equals("Faculty")) ? 30 : 14;
+        int days = user.getMembershipType().equals("Faculty") ? 30
+                : user.getMembershipType().equals("Guest") ? 7
+                        : 14;
         Calendar c = Calendar.getInstance();
         c.setTime(borrowedDate);
         c.add(Calendar.DATE, days);

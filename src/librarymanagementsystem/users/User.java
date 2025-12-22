@@ -8,6 +8,7 @@ import librarymanagementsystem.observers.Observer;
 import librarymanagementsystem.strategies.FineStrategy;
 
 public abstract class User implements Observer {
+
     protected String userId;
     protected String name;
     protected String email;
@@ -36,6 +37,15 @@ public abstract class User implements Observer {
         return membershipType;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    // Borrow records
     public void addBorrowedRecord(BorrowRecord r) {
         borrowedRecords.add(r);
     }
@@ -44,10 +54,13 @@ public abstract class User implements Observer {
         return borrowedRecords;
     }
 
+    // Observer pattern
+    @Override
     public void update(String message) {
         System.out.println("[Notification for " + name + "] " + message);
     }
 
+    // Strategy pattern
     public abstract int getBorrowLimit();
 
     public abstract FineStrategy getFineStrategy();

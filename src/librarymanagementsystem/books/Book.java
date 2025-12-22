@@ -26,6 +26,9 @@ public class Book implements BookComponent {
     // Reservation queue
     private List<User> reservationQueue = new ArrayList<>();
 
+    // Decorator display reference
+    private BookComponent decoratedView;
+
     public Book(String bookId, String title, String author, String category, String isbn) {
         this.bookId = bookId;
         this.title = title;
@@ -33,6 +36,7 @@ public class Book implements BookComponent {
         this.category = category;
         this.isbn = isbn;
         this.state = new AvailableState(this);
+        this.decoratedView = this;
     }
 
     // Getters
@@ -40,8 +44,14 @@ public class Book implements BookComponent {
         return bookId;
     }
 
+    @Override
     public String getTitle() {
         return title;
+    }
+
+    // Decorated title for display
+    public String getDisplayTitle() {
+        return decoratedView.getTitle();
     }
 
     public String getAuthor() {
@@ -76,7 +86,7 @@ public class Book implements BookComponent {
         return reservationQueue;
     }
 
-    // Setters (REQUIRED for Update Book)
+    // Setters
     public void setTitle(String title) {
         this.title = title;
     }
@@ -101,9 +111,17 @@ public class Book implements BookComponent {
         this.state = state;
     }
 
+    public void setDecoratedView(BookComponent decoratedView) {
+        this.decoratedView = decoratedView;
+    }
+
     // Other helpers
     public void addTag(String tag) {
         tags.add(tag);
+    }
+
+    public void clearTags() {
+        tags.clear();
     }
 
     public void addBorrowRecord(BorrowRecord record) {
@@ -142,6 +160,6 @@ public class Book implements BookComponent {
     // Display
     @Override
     public String toString() {
-        return bookId + " - " + title + " (" + author + ") [" + state.getStatus() + "]";
+        return bookId + " - " + getDisplayTitle() + " (" + author + ") [" + state.getStatus() + "]";
     }
 }
